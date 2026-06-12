@@ -104,17 +104,17 @@ Finally, as an end-to-end exercise of the whole architecture, we computed $\wide
 
 ## 7. Certificates and reproducibility
 
-The five attached scripts are deterministic, self-contained, and run on stock Python ($\ge$3.11 with `numpy`, `scipy`, `mpmath`); total runtime is under thirty minutes on a laptop. Each prints a PASS/FAIL verdict per check (the stability audit prints measured drifts) and a final result line.
+The five attached scripts are deterministic, self-contained, and run on stock Python ($\ge 3.11$ with `numpy`, `scipy`, `mpmath`); total runtime is under thirty minutes on a laptop. Each prints a PASS/FAIL verdict per check (the stability audit prints measured drifts) and a final result line.
 
 | script | contents | runtime |
-|---|---|---|
-| `probe_ccm_exact_matrix.py` | the per-frequency exact matrix; zero-side validation; even/odd spectra at three windows; $\epsilon_\lambda$ vs Fuchs; Rayleigh excess | $\sim$3 min |
-| `probe_quantified_weld_e2e.py` | min–max transfer on exact data; Mellin/strip transfer constants; the spectral realization tables above | $\sim$4 min |
-| `probe_fuchs_second_rung.py` | tower identification of the excited state; Courant–Fischer gap bound; Fuchs rung ratios from FD prolates | $\sim$4 min |
-| `probe_ccm_seam_weld.py` | Meixner–Schäfke rates; $\widehat{k_\lambda}\to\Xi$ end-to-end; exact Poisson mirror and its finite-$\lambda$ breakage | $\sim$3 min |
-| `attack_v2_hardening.py` | stability audit: $N$-refinement of all spectra; quadrature doubling; 40 vs 60 digits; overlap deficit with random-subspace control; root-finder basin; finite-difference budget for $r/\epsilon$ | $\sim$15 min |
+|------------------------------------|--------------------------------------------------------|------------|
+| `probe_ccm_exact_matrix.py` | the per-frequency exact matrix; zero-side validation; even/odd spectra at three windows; $\epsilon_\lambda$ vs Fuchs; Rayleigh excess | $\sim 3$ min |
+| `probe_quantified_weld_e2e.py` | min–max transfer on exact data; Mellin/strip transfer constants; the spectral realization tables above | $\sim 4$ min |
+| `probe_fuchs_second_rung.py` | tower identification of the excited state; Courant–Fischer gap bound; Fuchs rung ratios from FD prolates | $\sim 4$ min |
+| `probe_ccm_seam_weld.py` | Meixner–Schäfke rates; $\widehat{k_\lambda}\to\Xi$ end-to-end; exact Poisson mirror and its finite-$\lambda$ breakage | $\sim 3$ min |
+| `attack_v2_hardening.py` | stability audit: $N$-refinement of all spectra; quadrature doubling; 40 vs 60 digits; overlap deficit with random-subspace control; root-finder basin; finite-difference budget for $r/\epsilon$ | $\sim 15$ min |
 
-The same files, with their recorded outputs, are mirrored at: **[GitHub repository link]** — provided so that nothing need be executed from an e-mail attachment.
+The same files, with their recorded outputs, are mirrored at: **<https://github.com/leomurillo/ccm-exact-verification>** — provided so that nothing need be executed from an e-mail attachment.
 
 ## 8. Closing remark
 
