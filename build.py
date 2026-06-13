@@ -63,7 +63,7 @@ abstract: |
 
 build_md = src.with_name("_build.md")
 build_md.write_text(meta, encoding="utf-8")
-out_pdf = src.with_suffix(".pdf")
+out_pdf = Path(sys.argv[2]) if len(sys.argv) > 2 else src.with_suffix(".pdf")
 cmd = ["pandoc", "-s", str(build_md), "-o", str(out_pdf), "--pdf-engine=xelatex"]
 print(" ".join(cmd))
 rc = subprocess.run(cmd).returncode

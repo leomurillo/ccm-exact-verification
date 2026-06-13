@@ -36,7 +36,56 @@ The paper [CCM] constructs spectral triples from rank-one perturbations $\wideti
 
 This note contributes computational theorems-of-record on both, obtained from an implementation that is independent of the authors' (different reduction of the matrix elements, different prolate solver, arbitrary-precision arithmetic throughout), so that agreement constitutes genuine verification. We are aware of two other independent numerical engagements with this circle of results, which the present note complements rather than repeats: Groskin (arXiv:2605.20224) has implemented the Connes–van Suijlekom Galerkin matrix at cutoffs $c = \lambda^2 \ge 13$ to very high precision, with the even sector imposed by the choice of basis; and Śliwiński (arXiv:2601.12133) has computed low-precision spectra of the operators $D^{(\lambda,N)}_{\log}$ against the first thousand zeros. Neither covers the semilocal windows $\lambda \le 2$, computes the odd sector (so that parity is *verified*, not assumed), measures the prolate-ansatz proximity, or resolves the eigenvalue ladder — those are the regimes and observables reported here. Beyond verification, the exact spectra quantify structure that [CCM], Section 8 (indication (3)) describes qualitatively — the eigenvalue ladder of Section 4 — and this, we believe, materially improves the prospects of step (ii): the gap $\mu_1 - \epsilon_\lambda$ entering any perturbative comparison of $k_\lambda$ with $\xi_\lambda$ is measured to be not merely nonvanishing but *exponentially large relative to* $\epsilon_\lambda$.
 
-We follow the notation of [CCM] throughout: $L = 2\log\lambda$; $U_n(x) = L^{-1/2}e^{2\pi inx/L}$ on $[0,L]$; $V_n = \kappa(U_n)$; $\mathcal E(f)(u) = u^{1/2}\sum_{k\ge1}f(ku)$; $h_{n,\lambda}$ the prolate eigenfunctions of $PW_\lambda = -\partial_x((\lambda^2-x^2)\partial_x) + (2\pi\lambda x)^2$; $\chi(\lambda)$ the eigenvalue of the Fourier compression; $k_\lambda = \mathcal E(h_\lambda)$ with $h_\lambda$ the vanishing-integral combination of $h_{0,\lambda}, h_{4,\lambda}$.
+We follow the notation of [CCM] throughout; the symbols used in this note are collected here for reference.
+
+| Symbol | Meaning |
+|:-------------|:--------------------------------------------------------------|
+| **Window and model space** | |
+| $\lambda$ | semilocal window parameter; here $\lambda = 1.3,\ 1.5,\ 2.0$ |
+| $L$ | period, $L = 2\log\lambda$ |
+| $N$ | truncation order; the model space has dimension $2N+1$ |
+| $U_n$ | Fourier modes $U_n(x) = L^{-1/2}e^{2\pi i nx/L}$ on $[0,L]$, for $-N\le n\le N$ |
+| $\kappa$ | the [CCM] map carrying $U_n$ to the basis vector $V_n$ |
+| $V_n$ | basis vectors, $V_n = \kappa(U_n)$ |
+| $E_N$ | model space: the span of $V_{-N},\dots,V_N$ (dimension $2N+1$) |
+| $e_0,\ e_k$ | even-sector basis $e_0 = V_0$, $e_k = (V_k + V_{-k})/\sqrt2$ (odd sector analogous) |
+| $c$ | cutoff parameter $c = \lambda^2$ of the Connes–van Suijlekom formulation |
+| **The Weil form and its matrix** | |
+| $QW_\lambda$ | the semilocal Weil quadratic form |
+| $QW_\lambda^N$ | restriction of $QW_\lambda$ to $E_N$ — the matrix studied here |
+| $QW(V_n,V_m)$ | entries of $QW_\lambda^N$ |
+| $\omega_k$ | mode frequency, $\omega_k = 2\pi k/L$ |
+| $q(U_n,U_m)$ | pairing kernel ([CCM], Lemma 2.3) |
+| $\Psi^\sharp$ | distribution on $[1,\infty)$ with $QW(V_n,V_m) = \Psi^\sharp(F_{nm})$ ([CCM], Lemma 3.1) |
+| $W_{0,2}^\sharp,\ W_\R^\sharp,\ W_p^\sharp$ | the three pieces of $\Psi^\sharp = W_{0,2}^\sharp - W_\R^\sharp - \sum_p W_p^\sharp$; $W_p^\sharp$ collects the prime-power terms |
+| $F_{nm}$ | $F_{nm}(x) = q(U_n,U_m)(\log x)$, the argument of $\Psi^\sharp$ |
+| $S_k$ | per-frequency scalar $S_k = \Psi^\sharp(\sin(\omega_k\log x))$ generating the off-diagonal entries (§2) |
+| **Prolate side** | |
+| $PW_\lambda$ | prolate operator $-\partial_x((\lambda^2-x^2)\partial_x) + (2\pi\lambda x)^2$ |
+| $h_{n,\lambda}$ | eigenfunctions of $PW_\lambda$ (the prolate cells) |
+| $h_n$ | the limit of $h_{n,\lambda}$ as $\lambda\to\infty$ ([CCM], Lemma 7.2) |
+| $\chi(\lambda),\ \chi_{4k}(\lambda)$ | Fourier-compression eigenvalues; $1-\chi_{4k}$ is the compression defect of the $k$-th cell |
+| $\mathcal E$ | summation map $\mathcal E(f)(u) = u^{1/2}\sum_{k\ge1} f(ku)$ |
+| $h_\lambda$ | the vanishing-integral combination of $h_{0,\lambda}$ and $h_{4,\lambda}$ |
+| $k_\lambda$ | the prolate ansatz $k_\lambda = \mathcal E(h_\lambda)$ for the ground vector |
+| $\tilde k_\lambda$ | the $L^2(d^*u)$-normalized, even-projected window built from $k_\lambda$ (§5) |
+| **Spectral quantities** | |
+| $\xi_\lambda$ (or $\xi$) | the true ground eigenvector of $QW_\lambda^N$ |
+| $\epsilon_\lambda$ (or $\epsilon$) | the ground (smallest) eigenvalue of $QW_\lambda^N$ |
+| $\mu_1$ | the first excited even eigenvalue; $\mu_1 - \epsilon_\lambda$ is the even-sector gap |
+| $r$ | the Rayleigh excess $r = QW_\lambda(\tilde k_\lambda) - \epsilon_\lambda$; $r/\epsilon_\lambda$ its normalized form |
+| $\delta_N$ | the [CCM] normalization functional ($\delta_N(\xi) = 1$) |
+| **Transforms, zeros, and targets** | |
+| $\widetilde D$ | rank-one perturbation of the scaling operator on $[\lambda^{-1},\lambda]$ ([CCM]) |
+| $\det\nolimits_\infty$ | regularized determinant; $\det\nolimits_\infty(\widetilde D - z) = -i\lambda^{-iz}\widehat\xi(z)$ |
+| $\widehat\xi$ | transform $\widehat\xi(z) = \sum_n \xi_n \widehat{V_n}(z)$ whose zeros are studied ($\widehat{k_\lambda}$ likewise) |
+| $z,\ s$ | complex spectral variables; zeros are sought on $\zeta(\tfrac12 + is)$, with $\Im z$ the strip height |
+| $\Xi$ | the limit profile of $\widehat{k_\lambda}$ ([CCM], Lemma 7.3) |
+| $W(\beta,\lambda)$ | Mellin-strip transfer constant, $((\lambda^{2\beta} - \lambda^{-2\beta})/2\beta)^{1/2}$ (§5) |
+| $\gamma_k$ | the ordinates (imaginary parts) of the nontrivial zeros of $\zeta$ |
+| $\hat z_k$ | zeros of $\widehat\xi$ computed from our matrix (approximating $\gamma_k$) |
+| $\zeta$ | the Riemann zeta function |
+| $d^*u$ | multiplicative Haar measure, $du/u$ |
 
 ## 2. The exact matrix: a per-frequency reduction
 
@@ -46,17 +95,20 @@ q(U_n,U_m)(y) = \frac{\sin(\omega_m y) - \sin(\omega_n y)}{\pi(n-m)}\ \ (n\neq m
 q(U_n,U_n)(y) = 2\Big(1 - \frac{y}{L}\Big)\cos(\omega_n y), \qquad \omega_k := \frac{2\pi k}{L}.
 $$
 
-The observation that makes exact evaluation cheap is that $\Psi^\sharp$ is *linear* in $q$ and the off-diagonal $q$'s are differences of single-frequency sines. Hence the entire $(2N+1)^2$ matrix is generated by $2N+1$ scalars: setting, in the variable $y = \log x$,
+The observation that makes the matrix cheap to assemble is that $\Psi^\sharp$ is *linear* and, by the off-diagonal formula above, $q(U_n,U_m)$ is a single difference of one-frequency sines. Write $S_k := \Psi^\sharp\big(\sin(\omega_k\log x)\big)$ for the value of $\Psi^\sharp$ on the pure mode of frequency $k$; by the three-term form of $\Psi^\sharp$ ([CCM], Lemma 3.1: $\Psi^\sharp = W_{0,2}^\sharp - W_\R^\sharp - \sum_p W_p^\sharp$), it is a sum of three elementary terms — in the variable $y = \log x$,
 $$
-S_k := \underbrace{\int_0^L \sin(\omega_k y)\,2\cosh(y/2)\,dy}_{A_k\ (\text{from }W_{0,2}^\sharp)}
+S_k = \underbrace{\int_0^L \sin(\omega_k y)\,2\cosh(y/2)\,dy}_{A_k\ (\text{from }W_{0,2}^\sharp)}
 \;-\;\underbrace{\int_0^L \frac{e^{y/2}\sin(\omega_k y)}{2\sinh y}\,dy}_{B_k\ (\text{from }W_\R^\sharp)}
 \;-\;\underbrace{\sum_{p^j\le e^L}\frac{\log p}{p^{j/2}}\,\sin(\omega_k\, j\log p)}_{P_k\ (\text{from }W_p^\sharp)},
 $$
-one has
+By linearity of $\Psi^\sharp$, every off-diagonal entry is then a difference of two of these scalars: for $n \neq m$,
 $$
-QW(V_n,V_m) \;=\; \frac{S_m - S_n}{\pi(n-m)} \qquad (n\neq m),
+\begin{aligned}
+QW(V_n,V_m) &= \Psi^\sharp(F_{nm}) = \frac{\Psi^\sharp\big(\sin(\omega_m\log x)\big) - \Psi^\sharp\big(\sin(\omega_n\log x)\big)}{\pi(n-m)} \\
+&= \frac{S_m - S_n}{\pi(n-m)} \qquad (n\neq m).
+\end{aligned}
 $$
-with an analogous expression for the diagonal from $q(U_n,U_n)$; the $F(1)$-term of $W_\R^\sharp$ contributes, beyond the window, the closed form $\tfrac12\log\tanh(L/2)$. (The $B_k$ integrand extends continuously by $\omega_k/2$ at $y=0$.) All integrands are smooth and elementary; we evaluate them by adaptive Gauss–Legendre quadrature in `mpmath` at $40$ significant digits. The cost of the full matrix at $N = 12$ is a few seconds.
+Thus the off-diagonal block is fixed by the $2N+1$ numbers $\{S_k\}_{|k|\le N}$ — one per frequency, not one per pair — while the diagonal $q(U_n,U_n)(y) = 2(1-y/L)\cos(\omega_n y)$, though not a difference of modes, likewise costs a single scalar per index; the whole $(2N+1)^2$ matrix is therefore assembled from $O(N)$ one-dimensional integrals rather than the naive $O(N^2)$. The $F(1)$-term of $W_\R^\sharp$ contributes, beyond the window, the closed form $\tfrac12\log\tanh(L/2)$. (The $B_k$ integrand extends continuously by $\omega_k/2$ at $y=0$.) All integrands are smooth and elementary; we evaluate them by adaptive Gauss–Legendre quadrature in `mpmath` at $40$ significant digits. The cost of the full matrix at $N = 12$ is a few seconds.
 
 **Validation.** The diagonal entries $QW(V_0,V_0)$ and $QW(V_1,V_1)$ at $\lambda = 1.5$ were checked against the zero side of the explicit formula, $\sum_\rho$ over the first $200$ zeros with the standard tail estimate: agreement within the truncation allowance. Doubling the quadrature subdivision ($16 \to 32$ Gauss–Legendre panels) leaves every reported eigenvalue unchanged to ten significant digits, and raising the working precision from $40$ to $60$ digits changes them only at the $10^{-29}$ level — the quoted numbers are quadrature- and precision-exact. Independently, the spectral-realization computation of Section 6 — which exercises every entry of the matrix through the eigenvector — reproduces $\gamma_1$ to $2.3\times10^{-9}$, a far more stringent end-to-end check. (Certificates: [`probe_ccm_exact_matrix.py`](https://github.com/leomurillo/ccm-exact-verification/blob/main/probe_ccm_exact_matrix.py), CHECK A; [`attack_v2_hardening.py`](https://github.com/leomurillo/ccm-exact-verification/blob/main/attack_v2_hardening.py), ATTACK 1.)
 
@@ -88,7 +140,7 @@ the last stable in order of magnitude ($2.3$–$2.5\times10^5$) under $N \to 14,
 $$
 1-\chi(\lambda)\ \sim\ \tfrac{2^{14}}{3}\sqrt2\,\pi^5\,e^{-4\pi\lambda^2 + 9\log\lambda},
 $$
-we find $\epsilon_\lambda / (1-\chi)_{\mathrm{Fuchs}} = 3.3$ at $\lambda=1.5$ ($N{=}10$; $3.1$ at $N{=}14$) and $7.7$ at $\lambda = 2.0$ ($N{=}12$; $6.2$ at $N{=}14$, $5.9$ at $N{=}16$), while the quantities themselves fall from $10^{-4}$ to $10^{-12}$. The truncation is the dominant uncertainty in these ratios; the stable statement is the order-unity tracking across thirteen decades. This reproduces, by an independent route, the phenomenon displayed in [CCM], Figure 4, and supports reading $\epsilon_\lambda$ as the Fourier-compression defect of the ground cell. We also reproduced, from a banded finite-difference diagonalization of $PW_\lambda$ (independent of any prolate special-function library), the Meixner–Schäfke estimate of [CCM], Lemma 7.2: $\max_{[-\lambda,\lambda]}|h_{n,\lambda}-h_n| = O(\lambda^{-2})$, with fitted rates $\lambda^{-2.16}$ ($n=0$) and $\lambda^{-2.56}$ ($n=4$); and the convergence $\widehat{k_\lambda}\to\Xi$ of [CCM], Lemma 7.3, measured end-to-end at the empirical rate $\approx\lambda^{-2.3}$ — faster than the $O(\lambda^{-1/2-\alpha})$ rate recorded for this convergence in the survey [L], Section 6.5. The Poisson symmetry $k(u)=k(u^{-1})$ holds in our build to $1.4\times10^{-15}$, and its finite-$\lambda$ breakage (the discrepancy of $h_\lambda$ from exact Fourier invariance) measures $2.5$–$3$ orders of magnitude below the $\lambda^{-2}$ approximation floor — consistent with the exponential smallness of $1-\chi(\lambda)$. (Certificate: [`probe_ccm_seam_weld.py`](https://github.com/leomurillo/ccm-exact-verification/blob/main/probe_ccm_seam_weld.py).)
+we find $\epsilon_\lambda / (1-\chi)_{\mathrm{Fuchs}} = 3.3$ at $\lambda=1.5$ ($N{=}10$; $3.1$ at $N{=}14$) and $7.7$ at $\lambda = 2.0$ ($N{=}12$; $6.2$ at $N{=}14$, $5.9$ at $N{=}16$), while the quantities themselves fall from $10^{-4}$ to $10^{-12}$. The truncation is the dominant uncertainty in these ratios; the stable statement is the order-unity tracking across thirteen decades. This reproduces, by an independent route, the phenomenon displayed in [CCM], Figure 4, and supports reading $\epsilon_\lambda$ as the Fourier-compression defect of the ground cell. We also reproduced, from a banded finite-difference (FD) diagonalization of $PW_\lambda$ (independent of any prolate special-function library), the Meixner–Schäfke estimate of [CCM], Lemma 7.2: $\max_{[-\lambda,\lambda]}|h_{n,\lambda}-h_n| = O(\lambda^{-2})$, with fitted rates $\lambda^{-2.16}$ ($n=0$) and $\lambda^{-2.56}$ ($n=4$); and the convergence $\widehat{k_\lambda}\to\Xi$ of [CCM], Lemma 7.3, measured end-to-end at the empirical rate $\approx\lambda^{-2.3}$ — faster than the $O(\lambda^{-1/2-\alpha})$ rate recorded for this convergence in the survey [L], Section 6.5. The Poisson symmetry $k(u)=k(u^{-1})$ holds in our build to $1.4\times10^{-15}$, and its finite-$\lambda$ breakage (the discrepancy of $h_\lambda$ from exact Fourier invariance) measures $2.5$–$3$ orders of magnitude below the $\lambda^{-2}$ approximation floor — consistent with the exponential smallness of $1-\chi(\lambda)$. (Certificate: [`probe_ccm_seam_weld.py`](https://github.com/leomurillo/ccm-exact-verification/blob/main/probe_ccm_seam_weld.py).)
 
 ## 5. The proximity of $k_\lambda$ to $\xi_\lambda$ (second missing step)
 
