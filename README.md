@@ -1,8 +1,9 @@
-# Exact-arithmetic verification of the CCM semilocal Weil form $QW_\lambda$
+# High-precision verification of the CCM semilocal Weil form $QW_\lambda$
 
-Independent implementation and exact-arithmetic verification of the semilocal Weil quadratic form
-of Connes–Consani–Moscovici, *Zeta spectral triples*, arXiv:2511.22755 — bearing on the two missing
-steps of their Section 8 (the simple-even condition; the prolate-ansatz proximity).
+Independent implementation and high-precision verification (arbitrary-precision floating-point
+arithmetic, 40–60 digits) of the semilocal Weil quadratic form of Connes–Consani–Moscovici,
+*Zeta spectral triples*, arXiv:2511.22755 — bearing on the two missing steps of their Section 8
+(the simple-even condition; the prolate-ansatz proximity).
 
 **Note:** `ExactVerification-SemilocalWeilForm-Note-v2.md` (v1 retained for the record).
 **Audit trail:** `AUDIT.md` — per-claim adversarial audit performed before transmission.
