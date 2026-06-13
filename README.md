@@ -79,4 +79,4 @@ Recorded reference outputs are in `rerun_*.log` and `attack_v2_hardening.log`.
 ## Links
 
 - Target paper: [arXiv:2511.22755](https://arxiv.org/abs/2511.22755) (Connes–Consani–Moscovici, *Zeta spectral triples*)
-- Archived release: Zenodo DOI — *to be filled at publication*
+- Archived release: [10.5281/zenodo.20680667](https://doi.org/10.5281/zenodo.20680667)

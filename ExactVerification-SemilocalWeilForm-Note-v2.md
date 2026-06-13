@@ -180,7 +180,7 @@ The five attached scripts are deterministic, self-contained, and run on stock Py
 | [`probe_ccm_seam_weld.py`](https://github.com/leomurillo/ccm-exact-verification/blob/main/probe_ccm_seam_weld.py) | Meixner–Schäfke rates; $\widehat{k_\lambda}\to\Xi$ end-to-end; exact Poisson mirror and its finite-$\lambda$ breakage | $\sim 3$ min |
 | [`attack_v2_hardening.py`](https://github.com/leomurillo/ccm-exact-verification/blob/main/attack_v2_hardening.py) | stability audit: $N$-refinement of all spectra; quadrature doubling; 40 vs 60 digits; overlap deficit with random-subspace control; root-finder basin; finite-difference budget for $r/\epsilon$ | $\sim 15$ min |
 
-The same files, with their recorded outputs, are mirrored at: **<https://github.com/leomurillo/ccm-exact-verification>** — provided so that nothing need be executed from an e-mail attachment.
+The same files, with their recorded outputs, are mirrored at **<https://github.com/leomurillo/ccm-exact-verification>** and permanently archived at **<https://doi.org/10.5281/zenodo.20680667>** — provided so that nothing need be executed from an e-mail attachment.
 
 ## 8. Closing remark
 
